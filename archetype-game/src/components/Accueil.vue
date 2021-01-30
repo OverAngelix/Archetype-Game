@@ -8,8 +8,9 @@
       <div class="card-body">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
-            <span class="font-weight-bold">{{ msg.user }}: </span
-            >{{ msg.message }}
+            <span class="font-italic">{{ msg.timeInfo }}: </span>
+            <span class="font-weight-bold">{{ msg.user }}: </span>
+            {{ msg.message }}
           </p>
         </div>
       </div>
@@ -49,26 +50,26 @@ export default {
   },
 
   methods: {
+    currentTime() {
+      let today = new Date();
+      let hours = today.getHours();
+      let minutes = today.getMinutes();
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      return hours + ":" + minutes;
+    },
+
     sendMessage(e) {
       e.preventDefault();
-
-      var today = new Date();
-      var date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
-
-      var time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-      var dateTime = date + " " + time;
 
       this.socket.emit("SEND_MESSAGE", {
         user: this.user,
         message: this.message,
-        timeInfo: dateTime,
+        timeInfo: this.currentTime(),
       });
       this.message = "";
     },
@@ -85,8 +86,8 @@ export default {
 
     this.socket.on("miseAJourChat", (data) => {
       this.messages = [];
-      for(let i=0;i<data.length;i++){
-         this.messages = [...this.messages, data[i]];
+      for (let i = 0; i < data.length; i++) {
+        this.messages = [...this.messages, data[i]];
       }
     });
   },
