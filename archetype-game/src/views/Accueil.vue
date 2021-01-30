@@ -1,31 +1,38 @@
 <template>
-  <div class="row pt-5 pl-3">
-    <div v-for="(personne, index) in p" :key="index">
-      <p>
-        {{ personne.user }}
-      </p>
+  <div>
+    <div class="row justify-content-center">
+      <ul
+        class="listePersonnes col-1"
+        v-for="(personne, index) in p"
+        :key="index"
+      >
+        <li class="list-group-item active" v-if="personne.user == user">
+          {{ personne.user }}
+        </li>
+        <li class="list-group-item" v-else>
+          {{ personne.user }}
+        </li>
+      </ul>
     </div>
-    <div class="col-md-9">
-      <div class="gorm-group">
-        {{ user }}
+    <div class="row pt-5 pl-3">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+        <perfect-scrollbar id="ps-container">
+          <div class="messages" v-for="(msg, index) in messages" :key="index">
+            <p>
+              <span class="font-italic">{{ msg.timeInfo }}: </span>
+              <span class="font-weight-bold">{{ msg.user }}: </span>
+              {{ msg.message }}
+            </p>
+          </div>
+        </perfect-scrollbar>
+        <form @submit.prevent="sendMessage">
+          <div class="gorm-group">
+            <input type="text" v-model="message" class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-success">Envoyer</button>
+        </form>
       </div>
-    </div>
-    <div class="col-md-3">
-      <perfect-scrollbar id="ps-container">
-        <div class="messages" v-for="(msg, index) in messages" :key="index">
-          <p>
-            <span class="font-italic">{{ msg.timeInfo }}: </span>
-            <span class="font-weight-bold">{{ msg.user }}: </span>
-            {{ msg.message }}
-          </p>
-        </div>
-      </perfect-scrollbar>
-      <form @submit.prevent="sendMessage">
-        <div class="gorm-group">
-          <input type="text" v-model="message" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-success">Envoyer</button>
-      </form>
     </div>
   </div>
 </template>
@@ -59,7 +66,7 @@ export default {
 
   methods: {
     beforeunloadFn() {
-      console.log(this.user)
+      console.log(this.user);
       this.socket.emit("deconnexionServeur", {
         user: this.user,
       });
@@ -131,6 +138,12 @@ export default {
 
 <style >
 .ps {
-  height: 800px;
+  height: 700px;
+}
+.listePersonnes {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 </style>
