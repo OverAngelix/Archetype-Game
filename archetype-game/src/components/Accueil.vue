@@ -52,22 +52,43 @@ export default {
     sendMessage(e) {
       e.preventDefault();
 
+      var today = new Date();
+      var date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+
+      var time =
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+      var dateTime = date + " " + time;
+
       this.socket.emit("SEND_MESSAGE", {
         user: this.user,
         message: this.message,
+        timeInfo: dateTime,
       });
       this.message = "";
     },
   },
-  
+
   mounted() {
     this.socket.on("MESSAGE", (data) => {
       this.messages = [...this.messages, data];
-      // you can also do this.messages.push(data)
     });
     if (localStorage.username) {
       this.user = localStorage.username;
     }
+    this.socket.emit("recuperationChat", {});
+
+    this.socket.on("miseAJourChat", (data) => {
+      this.messages = [];
+      for(let i=0;i<data.length;i++){
+         this.messages = [...this.messages, data[i]];
+      }
+    });
   },
 };
 </script>

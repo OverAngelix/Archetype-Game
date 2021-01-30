@@ -1,5 +1,5 @@
 const express = require('express');
-
+let globalchat = [];
 
 const app = express();
 
@@ -17,8 +17,15 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', function (socket) {
-    console.log(socket.id)
+
     socket.on('SEND_MESSAGE', function (data) {
-        io.emit('MESSAGE', data)
+        globalchat = [...globalchat, data];
+        io.emit('MESSAGE', data);
     });
+
+    socket.on('recuperationChat', function () {
+        io.emit('miseAJourChat', globalchat);
+    });
+
 });
+
