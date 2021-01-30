@@ -1,20 +1,12 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <Accueil/>
+   <!--  <div id="nav">
+      <router-link to="/">Accueil</router-link> |
+      <router-link to="/connexion">Connexion</router-link>
+    </div> -->
+    <router-view/>
   </div>
 </template>
-
-<script>
-import Accueil from "./components/Accueil.vue";
-
-export default {
-  name: "App",
-  components: {
-    Accueil,
-  },
-};
-</script>
 
 <style>
 #app {
@@ -22,6 +14,18 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
