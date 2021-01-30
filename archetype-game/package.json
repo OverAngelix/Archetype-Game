@@ -16,6 +16,8 @@
     "vue": "^2.6.11",
     "vue-beautiful-chat": "^2.5.0",
     "vue-quick-chat": "^1.2.7",
+    "vue2-perfect-scrollbar": "^1.5.0",
+    "vuescroll": "^4.17.3",
     "vuetify": "^2.4.3"
   },
   "devDependencies": {

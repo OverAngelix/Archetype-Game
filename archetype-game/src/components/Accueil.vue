@@ -1,11 +1,20 @@
 <template>
-  <div class="card mt-3">
-    <div class="card-body">
-      <div class="card-title">
-        <h3>Chat Group</h3>
-        <hr />
-      </div>
-      <div class="card-body">
+  <div class="row">
+    <div class="col-md-9">
+      <form @submit.prevent="sendMessage">
+        <div class="gorm-group">
+          <label for="user">Nom d'utilisateur:</label>
+          <input type="text" v-model="user" class="form-control" />
+        </div>
+        <div class="gorm-group">
+          <label for="message">Message:</label>
+          <input type="text" v-model="message" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Envoyer</button>
+      </form>
+    </div>
+    <div class="col-md-3">
+      <perfect-scrollbar id="ps-container">
         <div class="messages" v-for="(msg, index) in messages" :key="index">
           <p>
             <span class="font-italic">{{ msg.timeInfo }}: </span>
@@ -13,20 +22,7 @@
             {{ msg.message }}
           </p>
         </div>
-      </div>
-    </div>
-    <div class="card-footer">
-      <form @submit.prevent="sendMessage">
-        <div class="gorm-group">
-          <label for="user">Nom d'utilisateur:</label>
-          <input type="text" v-model="user" class="form-control" />
-        </div>
-        <div class="gorm-group pb-3">
-          <label for="message">Message:</label>
-          <input type="text" v-model="message" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-success">Envoyer</button>
-      </form>
+      </perfect-scrollbar>
     </div>
   </div>
 </template>
@@ -50,6 +46,13 @@ export default {
   },
 
   methods: {
+    scrollToEnd() {
+      setTimeout(() => {
+        const container = document.getElementById("ps-container");
+        container.scrollTop = container.scrollHeight;
+      }, 0);
+    },
+
     currentTime() {
       let today = new Date();
       let hours = today.getHours();
@@ -64,7 +67,7 @@ export default {
     },
 
     sendMessage(e) {
-      if (this.message != "") {
+      if (this.message != "" && this.user != "") {
         e.preventDefault();
 
         this.socket.emit("SEND_MESSAGE", {
@@ -80,7 +83,9 @@ export default {
   mounted() {
     this.socket.on("MESSAGE", (data) => {
       this.messages = [...this.messages, data];
+      this.scrollToEnd();
     });
+
     if (localStorage.username) {
       this.user = localStorage.username;
     }
@@ -95,3 +100,9 @@ export default {
   },
 };
 </script>
+
+<style >
+.ps {
+  height: 600px;
+}
+</style>
