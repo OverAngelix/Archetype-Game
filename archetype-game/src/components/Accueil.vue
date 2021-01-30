@@ -64,14 +64,16 @@ export default {
     },
 
     sendMessage(e) {
-      e.preventDefault();
+      if (this.message != "") {
+        e.preventDefault();
 
-      this.socket.emit("SEND_MESSAGE", {
-        user: this.user,
-        message: this.message,
-        timeInfo: this.currentTime(),
-      });
-      this.message = "";
+        this.socket.emit("SEND_MESSAGE", {
+          user: this.user,
+          message: this.message,
+          timeInfo: this.currentTime(),
+        });
+        this.message = "";
+      }
     },
   },
 
