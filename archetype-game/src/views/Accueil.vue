@@ -58,6 +58,10 @@ export default {
 
   created() {
     window.addEventListener("beforeunload", () => this.beforeunloadFn());
+
+    if (this.$store.state.connected == false) {
+      this.$router.push("/connexion");
+    }
   },
 
   destroyed() {

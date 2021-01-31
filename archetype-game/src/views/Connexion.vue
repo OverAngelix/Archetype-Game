@@ -25,7 +25,8 @@ export default {
       if (this.user != "") {
         e.preventDefault();
         localStorage.username = this.user;
-        this.$router.push('/accueil');
+        this.$store.commit("connection");
+        this.$router.push("/game");
       }
     },
   },

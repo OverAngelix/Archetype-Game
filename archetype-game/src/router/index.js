@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/accueil',
+    path: '/game',
     name: 'Accueil',
     component: Accueil
   },
