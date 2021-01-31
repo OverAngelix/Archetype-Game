@@ -15,7 +15,9 @@
       </ul>
     </div>
     <div class="row pt-5 pl-3">
-      <div class="col-md-9"></div>
+      <div class="col-md-9 bg-primary">
+          <Game/>
+      </div>
       <div class="col-md-3">
         <perfect-scrollbar id="ps-container">
           <div class="messages" v-for="(msg, index) in messages" :key="index">
@@ -39,7 +41,12 @@
 
 <script>
 import io from "socket.io-client";
+import Game from '../components/Game.vue'
+
 export default {
+  components: {
+    Game,
+  },
   data() {
     return {
       user: "",
