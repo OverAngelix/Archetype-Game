@@ -7,13 +7,13 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    alias: '/accueil',
+    path: '/accueil',
     name: 'Accueil',
     component: Accueil
   },
   {
-    path: '/connexion',
+    path: '/',
+    alias: '/connexion',
     name: 'Connexion',
     component: Connexion
   }
